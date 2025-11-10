@@ -93,9 +93,9 @@ SESSION_SECRET=your_secure_random_string
 
 # Financial configuration (optional - defaults for new users)
 # Each user can customize these in their account settings
-# PAYCHECK_DEPOSIT_AMOUNT=2200
-# BONUS_AMOUNT_MIN=17000
-# BONUS_AMOUNT_MAX=18000
+# PAYCHECK_DEPOSIT_AMOUNT=
+# BONUS_AMOUNT_MIN=
+# BONUS_AMOUNT_MAX=
 ```
 
 ### 3. Start Development Server
@@ -218,19 +218,25 @@ For production, use:
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Ah, the Contributing section - that sacred text that contributors scroll past faster than a credit card bill they don't want to see. But hey, if you're one of the rare mythical creatures who actually reads this...
+
+1. Fork the repository (because apparently "git clone" is too mainstream)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`) - bonus points if you actually name it something descriptive
+3. Commit your changes (`git commit -m 'Add amazing feature'`) - please don't write "fix stuff" or "update things"
+4. Push to the branch (`git push origin feature/amazing-feature`) - the moment of truth
+5. Open a Pull Request - and hope for mercy from the maintainer gods
 
 ### Development Guidelines
 
-- Use TypeScript for all new code
-- Follow existing code style and conventions
-- Add tests for new features
-- Update documentation as needed
-- Ensure all environment variables are documented
+Look at you, reading the development guidelines! You're clearly not like those other contributors who just dive in and break everything. Here's what we'd love you to do (but let's be real, we know you won't):
+
+- Use TypeScript for all new code (because who doesn't love type safety?)
+- Follow existing code style and conventions (we have them for a reason, even if they're inconsistent)
+- Add tests for new features (ha! as if anyone actually does this)
+- Update documentation as needed (documentation? What documentation?)
+- Ensure all environment variables are documented (because we love deciphering cryptic error messages)
+
+Pro tip: If you're feeling rebellious, just ignore all of this and submit your PR anyway. We've all been there.
 
 ## 📄 License
 
@@ -238,11 +244,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-If you encounter issues:
+Ah, Support - the section where we pretend we'll actually help you. In reality, you're probably on your own, but let's go through the motions anyway:
 
-1. Check the [Issues](https://github.com/your-repo/issues) page
-2. Create a new issue with detailed information
-3. Include error logs and environment details
+1. Check the [Issues](https://github.com/your-repo/issues) page - maybe someone else already complained about your exact problem
+2. Create a new issue with detailed information - the more details you provide, the less likely we are to respond
+3. Include error logs and environment details - because nothing says "I debugged this thoroughly" like dumping your entire error stack
+
+If all else fails, try turning it off and on again. Or just give up and build your own financial dashboard - we've got plenty of company in the graveyard of abandoned side projects.
 
 ## 🔒 Security
 
