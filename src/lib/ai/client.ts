@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import { config } from '@/lib/config';
+import { AI_ANALYSIS_JSON_SCHEMA } from './schemas';
 
 let openaiClient: OpenAI | null = null;
 
@@ -42,6 +43,10 @@ export async function analyzeTransactionsWithAI(
       ],
       temperature: 0.1, // Low temperature for consistent analysis
       max_tokens: 2000,
+      response_format: {
+        type: 'json_schema',
+        json_schema: AI_ANALYSIS_JSON_SCHEMA,
+      },
     });
 
     const content = response.choices[0]?.message?.content;
@@ -49,8 +54,21 @@ export async function analyzeTransactionsWithAI(
       throw new Error('No response from OpenAI');
     }
 
-    // Parse the JSON response
-    const parsed = JSON.parse(content);
+    // Parse the JSON response with enhanced error handling
+    let parsed;
+    try {
+      parsed = JSON.parse(content);
+    } catch (parseError) {
+      const errorMessage = parseError instanceof Error ? parseError.message : 'Unknown parsing error';
+      const contentPreview = content.substring(0, 200) + (content.length > 200 ? '...' : '');
+      throw new Error(`Failed to parse OpenAI response as JSON: ${errorMessage}. Response content: ${contentPreview}`);
+    }
+
+    // Validate basic structure exists
+    if (!parsed || typeof parsed !== 'object') {
+      throw new Error(`Invalid response structure from OpenAI: expected object, got ${typeof parsed}`);
+    }
+
     return parsed;
   } catch (error) {
     console.error('OpenAI analysis error:', error);
