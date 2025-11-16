@@ -153,6 +153,31 @@ Ah, the Vercel Edge runtime - where "serverless" means "someone else's server":
 2. Create a Redis database (global replication sounds fancy but just means more configuration)
 3. Copy REST URL and token for Edge middleware (because environment variables weren't complicated enough)
 
+#### But... why two Redis databases?
+
+Because modern web hosting loves constraints almost as much as you love debugging at 2 AM:
+
+- **The TL;DR**: We use a classic Redis (TCP) instance for the main app features that rely on RedisJSON and RedisSearch. But the Vercel Edge runtime (where `middleware.ts` runs) can't open TCP sockets, so for authentication checks at the edge we use **Upstash Redis** via its HTTP REST API. Two Redis flavors, one anxious heart.
+
+- **The slightly longer version**:
+
+  - **App/Server Redis (TCP)**: Powers data storage and querying with RedisJSON and RedisSearch (fast lookups, structured JSON, the good stuff). This runs in the Node.js server runtime where TCP sockets are allowed.
+  - **Edge/Middleware Redis (HTTP via Upstash)**: The Vercel Edge runtime only speaks HTTP, not TCP. Authentication needs to happen as early as possible (in `middleware.ts`), so we validate cookies and sessions against Upstash’s REST API at the edge—no sockets required, no tears spilled (okay, fewer tears).
+
+- **What this means for you**:
+  - Keep both sets of env vars handy:
+    - `REDIS_URL` → your standard Redis (for RedisJSON/RedisSearch in server code)
+    - `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` → your Upstash Redis (for Edge middleware auth)
+  - Same data model, different access paths. Think of it like having a garage (server runtime) and a bike rack (edge runtime). Both store things; only one fits a car.
+
+> [!TIP] Reality‑checked pro tip
+> When you’re debugging Redis from `middleware.ts`, the errors won’t politely say “Edge can’t do TCP.” Instead you’ll get vague connection failures and cryptic stack traces. After many head‑banging hours across past projects, the decree is carved in stone: Edge forbids TCP—ignore it and Zeus will smite your middleware with 500s and stack traces like thunder, while the Fates gleefully knot your incident timeline into an endless loop. Embrace the dual‑Redis split.
+
+> [!IMPORTANT] Bonus lesson (learned the hard way)
+> Don’t build the whole app on Upstash‑only. The day you need RedisJSON or RedisSearch, you’ll be clawing your way out of the Underworld under Hades’s wrath—migrating keys, rewriting queries, and atoning for architectural hubris, while the Fates hover with scissors, eager to snip the thread of your weekend. Start with the dual setup and spare Future You the katabasis.
+
+If Zeus, Hades, or the Fates ring no bells, watch Disney’s “Hercules” — our most academically rigorous source for Greek mythology, obviously.
+
 ## 📚 API Documentation
 
 Behold, the API documentation - where we pretend these endpoints are self-explanatory and don't need examples. (Spoiler: they do.)
