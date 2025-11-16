@@ -11,6 +11,7 @@ export const config = {
   },
   redis: {
     url: process.env.REDIS_URL || 'redis://localhost:6379',
+    prefix: process.env.REDIS_PREFIX || 'money_app',
   },
   upstash: {
     restUrl: process.env.UPSTASH_REDIS_REST_URL!,

@@ -61,13 +61,13 @@ export const CACHE_KEYS = {
 
 // Redis keys
 export const REDIS_KEYS = {
-  user: (userId: string) => `user:${userId}`,
-  userSettings: (userId: string) => `user:${userId}:settings`,
-  userTransactions: (userId: string) => `user:${userId}:transactions`,
-  transaction: (userId: string, transactionId: string) => `transaction:${userId}:${transactionId}`,
-  automatedPayments: (userId: string) => `user:${userId}:automated-payments`,
-  alerts: (userId: string) => `user:${userId}:alerts`,
-  analysisCache: (userId: string, dateRange: string) => `user:${userId}:analysis:${dateRange}`,
+  user: (userId: string) => `${config.redis.prefix}:user:${userId}`,
+  userSettings: (userId: string) => `${config.redis.prefix}:user:${userId}:settings`,
+  userTransactions: (userId: string) => `${config.redis.prefix}:user:${userId}:transactions`,
+  transaction: (userId: string, transactionId: string) => `${config.redis.prefix}:user:${userId}:transaction:${transactionId}`,
+  automatedPayments: (userId: string) => `${config.redis.prefix}:user:${userId}:automated-payments`,
+  alerts: (userId: string) => `${config.redis.prefix}:user:${userId}:alerts`,
+  analysisCache: (userId: string, dateRange: string) => `${config.redis.prefix}:user:${userId}:analysis:${dateRange}`,
 } as const;
 
 // AI Analysis schedule options
